@@ -1,0 +1,88 @@
+
+{
+  "tables": {
+    "dim_customer": {
+      "columns": {
+        "customer_code": "string",
+        "customer": "string",
+        "market": "string",
+        "region": "string"
+      },
+      "primary_key": ["customer_code"]
+    },
+    "dim_product": {
+      "columns": {
+        "product_code": "string",
+        "product": "string",
+        "category": "string",
+        "subcategory": "string"
+      },
+      "primary_key": ["product_code"]
+    },
+    "fact_sales_monthly": {
+      "columns": {
+        "date": "date",
+        "customer_code": "string",
+        "product_code": "string",
+        "sold_quantity": "number",
+        "fiscal_year": "number"
+      },
+      "foreign_keys": {
+        "customer_code": "dim_customer.customer_code",
+        "product_code": "dim_product.product_code"
+      }
+    },
+    "fact_gross_price": {
+      "columns": {
+        "product_code": "string",
+        "fiscal_year": "number",
+        "gross_price": "number"
+      },
+      "foreign_keys": {
+        "product_code": "dim_product.product_code"
+      }
+    },
+    "fact_freight_cost": {
+      "columns": {
+        "product_code": "string",
+        "fiscal_year": "number",
+        "freight_cost": "number"
+      }
+    },
+    "fact_manufacturing_cost": {
+      "columns": {
+        "product_code": "string",
+        "fiscal_year": "number",
+        "manufacturing_cost": "number"
+      }
+    },
+    "fact_pre_invoice_deductions": {
+      "columns": {
+        "customer_code": "string",
+        "fiscal_year": "number",
+        "deductions": "number"
+      }
+    },
+    "fact_post_invoice_deductions": {
+      "columns": {
+        "customer_code": "string",
+        "fiscal_year": "number",
+        "deductions": "number"
+      }
+    },
+    "fact_forecast_monthly": {
+      "columns": {
+        "date": "date",
+        "customer_code": "string",
+        "product_code": "string",
+        "forecast_quantity": "number",
+        "fiscal_year": "number"
+      }
+    }
+  },
+  "relationships": [
+    { "from": "fact_sales_monthly.customer_code", "to": "dim_customer.customer_code" },
+    { "from": "fact_sales_monthly.product_code", "to": "dim_product.product_code" },
+    { "from": "fact_gross_price.product_code", "to": "dim_product.product_code" }
+  ]
+}
